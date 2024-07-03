@@ -3,7 +3,7 @@ const axios = require('axios');
 
 
 async function sendMessages(chatId,text){
-	const BOT_TOKEN = '6492315795:AAHRb29Kob8e-MrRlzb2qnnq7yfsWKzbQnQ';
+	const BOT_TOKEN = '6492315795:AAHRb29Kob8e-MrRlzb2qnnq7yfsWKzbQnQ1';
 	const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 	const params = { chat_id: chatId, text};
 	let response = null;
