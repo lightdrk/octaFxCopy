@@ -6,7 +6,7 @@ class OneFx {
 		this.openPositionList = [];
 	}
 
-	async function login(){
+	async login(browser){
 		this.page = await browser.newPage();
 		//await this.page.bringToFront();
 		const customUserAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36';
@@ -53,8 +53,9 @@ class OneFx {
 	}
 
 
-	async function createPosition(symbol, volume, callType) {
+	async createPosition(symbol, volume, callType) {
 		try{
+			await this.page.bringToFront();
 			await this.page.waitForSelector("div.list-element__wrapper", {visible: true});
 		}catch (err) {
 			console.log(err);
@@ -62,8 +63,12 @@ class OneFx {
 
 		const symbolsDiv = await this.page.$$("div.list-element__wrapper");
 		let symbolDiv = null;
+
+		console.log(symbolsDiv);
 		for (let x of symbolsDiv){
 			let text = await this.page.evaluate(el => el.innerText, x);
+			console.log('onefx symbols -->',text);
+			console.log("check for text --->",text.includes(symbol));
 			if (text.includes(symbol)){
 				await x.click();
 				symbolDiv = x;
@@ -77,8 +82,8 @@ class OneFx {
 			console.log(err);
 		}
 		const inputField = await symbolDiv.$$('input[id="Market-Watch-VolumeEditField"]');
-		console.log('input -->', inputField[0]);
-		let text = await this.page.evaluate(el => el.value = `${volume}`, inputField[0]);
+		console.log('input -->', inputField[0],volume);
+		let text = await this.page.evaluate((el,volume) => el.value = volume, inputField[0],volume);
 		await inputField[0].focus();
 		console.log('text -->',text);
 		try{
@@ -88,7 +93,7 @@ class OneFx {
 		}
 
 		let button = null;
-		if (callType === 'buy' ){
+		if (callType === 'Buy' ){
 			try {
 				button = await symbolDiv.$('button[id="MarketWatch-QuickBuy"]');
 			}catch (err) {
@@ -104,17 +109,22 @@ class OneFx {
 		console.log('click -->',button);
 		await button.click();
 		await this.page.screenshot({path: 'onefx.png'});
-		
+	}
+
+	async closePosition(remove){
+		console.log("close Position------------------>");
 		try {
+			await this.page.bringToFront();
 			await this.page.$$('div[class="engine-list--overflow"]');
 		}catch (err){
-		console.log(err);
+			console.log(err);
 		}
 
 		const positionsDiv = await this.page.$$('div[class="engine-list--overflow"]');
 		const openPosition = await positionsDiv[2].$$('div[class="list-element__wrapper"]');
 		for (let position of openPosition){
-			const text =  await this.page.evaluate(el => el.innerText, position);
+			let text =  await this.page.evaluate(el => el.innerText, position);
+			text = text.replaceAll('\n', ' ');
 			console.log(text);
 			const eL = await position.$$('button[id="closePositionButton"]');
 			let closeEl = null;
@@ -129,19 +139,23 @@ class OneFx {
 			this.openPositionList.push({closeEl,text})
 
 		}
-		console.log(openPositionList);
-		return this.openPositionList;
-		console.log(this.openPositionList.length);
-	}
+		console.log('In close position list of open position ---->',this.openPositionList);
+		for (let rem of remove){
+			for (let x of this.openPositionList){
+				console.log('while closing ---->',x.text)
+				console.log(x.text.includes(rem.symbol));
+				console.log(x.text.includes(rem.volume));
+				console.log(x.text.includes(rem.image));
 
-	async function closePosition(remove){
-		for (let x of this.openPositionList){
-			if (x.text.includes(remove.txt)){
-				const btn = x.closeEl;
-				console.log(btn);
-				await btn.click();
+				if (x.text.includes(rem.symbol) && x.text.includes(rem.volume) && x.text.includes(rem.image)){
+					const btn = x.closeEl;
+					console.log(btn);
+					await btn.click();
+					break;
+				}
 			}
 		}
+		return 0;
 
 	}
 }
