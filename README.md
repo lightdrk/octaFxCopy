@@ -70,10 +70,11 @@ Creating a comprehensive README for a Node.js project that includes basic instal
    git clone https://github.com/yourusername/yourrepository.git
    cd yourrepository
    ```
-   **OR**
+**OR**
+
    **Download the zip**
 
-3. **Install Dependencies**:
+2. **Install Dependencies**:
    ```bash
    npm install
    ```
