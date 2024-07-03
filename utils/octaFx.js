@@ -47,7 +47,8 @@ class OctaFx {
 				await openOrderDiv.waitForSelector('img',{timeout:3000});
 				await openOrderDiv.waitForSelector('div[class="history-table__volume"]',{timeout:3000});
 			}catch (err){
-				console.error(err);
+				console.log("no updates");
+				//console.error(err);
 			}
 
 			const images = await openOrderDiv.$$('img');

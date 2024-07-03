@@ -39,7 +39,7 @@ try{
 		cache(old);
 	});
 	while (true){
-		const newData = await octafx.dataRetr();//[{'symbol': 'GBPUSD', 'volume': '0.2', 'image': 'Sell'}]
+		const newData = [] //await octafx.dataRetr();//[{'symbol': 'GBPUSD', 'volume': '0.2', 'image': 'Sell'}]
 		console.log('newData -->',newData);
 		if (old === null || old.length == 0){
 			old = newData;
