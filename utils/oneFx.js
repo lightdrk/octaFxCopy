@@ -1,7 +1,7 @@
 class OneFx {
 	constructor(config) {
-		this.username = config.USERNAME;
-		this.password = config.PASSWORD;
+		this.username = config.USER;
+		this.password = config.PASS;
 		this.page = null;
 		this.openPositionList = [];
 	}
