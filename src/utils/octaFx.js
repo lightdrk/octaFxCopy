@@ -2,7 +2,17 @@ class OctaFx {
 	constructor(browser){
 		this.pages = [];
 		this.browser = browser;
+		this.isOpen = (str) => {
+			for (let n = 0; n < str.length; n++){
+				let x = str.charCodeAt(n);
+				if ( (48<x) && (x<=57)){
+					return true;
+				}
+			}
+			return false;
+		};
 	}
+	 
 
 	async openPage(url){
 		for ( let u of url ){
@@ -31,35 +41,40 @@ class OctaFx {
 			await page.screenshot({path: 'octafx.png'});
 	
 			const openOrder = await page.$$('button[class="ct-button text-button ct-tab _secondary _flat"]');
-			await openOrder[0].click();
-			const divList = await page.$$('div[class="history-table"]');
-			let openOrderDiv = null;
-			for (let x of divList) {
-				const visible = await x.isVisible();
-				if (visible){
-					console.log(1);
-					openOrderDiv = x;
-					break;
+			let numberOfOpenOrders = await page.evaluate(el => el.innerText, openOrder[0]);
+			if (this.isOpen(numberOfOpenOrders)){
+
+				await openOrder[0].click();
+				const divList = await page.$$('div[class="history-table"]');
+				let openOrderDiv = null;
+				for (let x of divList) {
+					const visible = await x.isVisible();
+					if (visible){
+						console.log(1);
+						openOrderDiv = x;
+						break;
+					}
 				}
-			}
 
-			try {
-				await openOrderDiv.waitForSelector('img',{timeout:3000});
-				await openOrderDiv.waitForSelector('div[class="history-table__volume"]',{timeout:3000});
-			}catch (err){
-				console.log("no updates");
-				//console.error(err);
-			}
+				try {
+					await openOrderDiv.waitForSelector('img',{timeout:3000});
+					await openOrderDiv.waitForSelector('div[class="history-table__volume"]',{timeout:3000});
+				}catch (err){
+					console.log("no updates");
+					//console.error(err);
+				}
 
-			const images = await openOrderDiv.$$('img');
-			const volume = await openOrderDiv.$$('div[class="history-table__volume"]');
-			const currency = await openOrderDiv.$$('div[class="history-table__currency"]');
+				const images = await openOrderDiv.$$('img');
+				const volume = await openOrderDiv.$$('div[class="history-table__volume"]');
+				const currency = await openOrderDiv.$$('div[class="history-table__currency"]');
 
-			for (let n = 0; n<volume.length; n++){
-				const vlm = await page.evaluate( el => el.innerText, volume[n] );
-				const img = await page.evaluate( el => el.src, images[n] );
-				const cur = await page.evaluate( el => el.innerText, currency[n] );
-				data.push({volume: vlm, symbol: cur, image: call[img]});
+				for (let n = 0; n<volume.length; n++){
+					const vlm = await page.evaluate( el => el.innerText, volume[n] );
+					const img = await page.evaluate( el => el.src, images[n] );
+					const cur = await page.evaluate( el => el.innerText, currency[n] );
+					data.push({volume: vlm, symbol: cur, image: call[img]});
+				}
+
 			}
 			await new Promise(resolve => setTimeout(resolve,10000));	
 
