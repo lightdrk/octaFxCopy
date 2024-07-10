@@ -84,7 +84,7 @@ Creating a comprehensive README for a Node.js project that includes basic instal
      ```cmd
      install.bat
      ```
-  - Mac Os
+   - Mac Os
     ```bash
     ./install
     ```
