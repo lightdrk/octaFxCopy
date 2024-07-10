@@ -4,7 +4,7 @@
 CURRENT_DIR=$(pwd)
 
 # Change directory to where your package.json is located
-cd "$CURRENT_DIR"
+cd "$CURRENT_DIR"/src
 
 # Run npm install
 npm install

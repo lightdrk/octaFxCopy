@@ -1,7 +1,7 @@
 @echo off
 
 rem Change directory to where your package.json is located
-cd /d %cd% 
+cd /d %cd%/src 
 
 rem Run npm install
 npm install
