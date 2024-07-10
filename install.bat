@@ -4,7 +4,7 @@ rem Change directory to where your package.json is located
 cd /d %cd%/src 
 
 rem Run npm install
-npm install
+call npm install
 
 rem Optional: Display message when done
 echo npm install completed.
