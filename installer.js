@@ -11,7 +11,7 @@ const token = prompt('Telegram Token: ');
 const group = prompt('Telegram group id: ');
 
 require('dotenv').config();
-const contentRun =``
+let contentRun =``
 let type = "Run.bat"
 let data = null; 
 if (os.platform() === "linux"){
