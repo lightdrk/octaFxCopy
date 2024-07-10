@@ -14,12 +14,13 @@ require('dotenv').config();
 let contentRun =``
 let type = "Run.bat"
 let data = null; 
+let curr = process.cwd();
 if (os.platform() === "linux"){
-	contentRun = `#!/bin/bash\nCURR=$(pwd)\ncd "$curr"\nnode main.js`
+	contentRun = `#!/bin/bash\ncd "${curr}"\nnode main.js`
 	data = `USERNAME=${username}\nPASS=${password}`;
 	type = "Run.sh";
 }else {
-	contentRun = `@echo off\ncd /d %cd%\nnode main.js\npause`;
+	contentRun = `@echo off\ncd /d "${curr}"\nnode main.js\npause`;
 	data = `USER=${username}\nPASS=${password}`;		
 }
 data = `${data}\nTOKEN=${token}\nGROUP=${group}`
