@@ -76,8 +76,23 @@ Creating a comprehensive README for a Node.js project that includes basic instal
   cd <-dir name->
 ```
 2. **Run Install**:
-   ```bash
-   ./install.sh
+    - Linux
+     ```bash
+     ./install.sh
+     ```
+   - Windows
+     ```cmd
+     install.bat
+     ```
+  - Mac Os
+    ```bash
+    ./install
+    ```
+    ***Note: You will be asked for creds in terminal/command prompt***
+
+3. ***Run the Run file on Desktop***:
+   ```
+   ./install.sh OR install.bat OR install
    ```
 
 ## Usage
