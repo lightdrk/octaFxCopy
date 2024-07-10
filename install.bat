@@ -15,3 +15,4 @@ node installer.js
 rem installer completed
 echo install completed
 
+pause
