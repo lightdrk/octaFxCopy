@@ -15,6 +15,7 @@ const contentRun =``
 let type = "Run.bat"
 let data = null; 
 if (os.platform() === "linux"){
+	contentRun = `#!/bin/bash\nCURR=$(pwd)\ncd "$curr"\nnode main.js`
 	data = `USERNAME=${username}\nPASS=${password}`;
 	type = "Run.sh";
 }else {
