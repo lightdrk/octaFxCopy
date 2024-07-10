@@ -1,3 +1,4 @@
+const os = require('os');
 const fs = require('fs');
 const process = require('process');
 const puppeteer = require('puppeteer');
@@ -10,6 +11,7 @@ const { sendMessages } = require('./utils/notify');
 require('dotenv').config();
 
 const config = process.env;
+console.log(config);
 const fx = new OneFx(config);
 let old = null;
 try{
@@ -22,13 +24,25 @@ try{
 }
 (async ()=>{
 	const browser = await puppeteer.launch({
-		headless: true,
+		headless: false,
 		defaultViewport: null,
 		args: ['--no-sandbox', '--disable-setuid-sandbox', '--start-maximized'],
 	});
 	const octafx = new OctaFx(browser);
 	let creation = [];
-	await fx.login(browser);
+	let [status, code] = [null, null];
+	let re_try = 0;
+	while (code != 1 && re_try != 3 ){
+		[status, code] = await fx.login(browser);
+		console.log(code);
+		re_try +=1;
+	}
+	console.log(status);
+	if (code > 1){
+		await sendMessages('-4074924590,', `unable to log in`);
+		await browser.close();
+		process.exit()
+	}
 	await octafx.openPage(["21139687","20945089","22737135","27366823"]);
 	process.on('SIGINT', async ()=>{ 
 		await browser.close();
@@ -39,7 +53,7 @@ try{
 		cache(old);
 	});
 	while (true){
-		const newData = [] //await octafx.dataRetr();//[{'symbol': 'GBPUSD', 'volume': '0.2', 'image': 'Sell'}]
+		const newData = await octafx.dataRetr();//[{'symbol': 'GBPUSD', 'volume': '0.2', 'image': 'Sell'}]
 		console.log('newData -->',newData);
 		if (old === null || old.length == 0){
 			old = newData;

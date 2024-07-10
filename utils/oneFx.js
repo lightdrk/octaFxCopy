@@ -1,9 +1,31 @@
+const os = require('os');
+
 class OneFx {
 	constructor(config) {
-		this.username = config.USER;
+		this.username = null; 
+		if (os.platform() === "linux"){
+			 this.username = config.USERNAME;
+		}else{
+			this.username = config.USER;
+		}
 		this.password = config.PASS;
 		this.page = null;
 		this.openPositionList = [];
+		this.code = 1;
+		this.errorObj = {
+			1: "done",
+			2: "Unable to load website",
+			3: "Failed to type username detials",
+			4: "Failed to type password detials",
+			5: "Failed to click sign in button",
+			6: "Unable to login",
+			7: "not able to find the button",
+			8: "not able to find input aread",
+			9: "button not found",
+			10: "buy button not found",
+			11: "sell button not found",
+			12: "Remove failed"
+		};
 	}
 
 	async login(browser){
@@ -15,41 +37,49 @@ class OneFx {
 		try {
 			await this.page.waitForSelector('input[data-testid="login-field"]');
 		}catch (err){
-			console.log(err);
+			this.code = 2
+			console.log(this.errorObj[code]);
+			//console.log(err);
 		}
 		const login = await this.page.$('input[data-testid="login-field"]');
 		try {
 			await login.type(this.username);
 		}catch (err) {
+			this.code = 3;
 			console.log('error typing username')
-			console.log(err);
+			//console.log(err);
 		}
 
 		const password = await this.page.$('input[data-testid="password-field"]');
 		try{
 			await password.type(this.password);
 		}catch (err) {
+			this.code = 4;
 			console.log('error typing username');
-			console.log(err);
+			//console.log(err);
 		}
 		
 		const sign_in = await this.page.$('button.engine-button--center:nth-child(5)');
 		try{
 			await sign_in.click();
 		}catch (err){
+			this.code = 5;
 			console.log('failed To click on sign in button')
-			console.log(err);
-		}
-		
-		try{
-			await this.page.waitForSelector('#cdk-drop-list-0');
-		}catch (err) {
-			console.log(err);
-			return 0;
+			//console.log(err);
 		}
 
-		return 1;
-		
+		try{
+			await this.page.waitForSelector('#cdk-drop-list-0', {timeout: 5000});
+		}catch (err) {
+			this.code = 6;
+			console.log(this.errorObj[code])
+			//console.log(err);
+		}
+		if (this.code > 1){
+			await this.page.close();
+		}
+
+		return [this.errorObj[this.code], this.code];
 	}
 
 
@@ -58,7 +88,9 @@ class OneFx {
 			await this.page.bringToFront();
 			await this.page.waitForSelector("div.list-element__wrapper", {visible: true});
 		}catch (err) {
-			console.log(err);
+			this.code = 7;
+			console.log("not able to find the button");
+			//console.log(err);
 		}
 
 		const symbolsDiv = await this.page.$$("div.list-element__wrapper");
@@ -79,7 +111,9 @@ class OneFx {
 		try{
 			await this.page.waitForSelector('input[id="Market-Watch-VolumeEditField"]', {visible: true});
 		}catch (err) {
-			console.log(err);
+			this.code = 8; 
+			console.log(this.errorObj[this.code]);
+			//console.log(err);
 		}
 		const inputField = await symbolDiv.$$('input[id="Market-Watch-VolumeEditField"]');
 		console.log('input -->', inputField[0],volume);
@@ -89,7 +123,9 @@ class OneFx {
 		try{
 			await this.page.waitForSelector('button[id="MarketWatch-QuickBuy"]', {visible: true});
 		}catch (err) {
-			console.log(err);
+			this.code = 9;
+			console.log(this.errorObj[this.code]);
+			//console.log(err);
 		}
 
 		let button = null;
@@ -97,18 +133,23 @@ class OneFx {
 			try {
 				button = await symbolDiv.$('button[id="MarketWatch-QuickBuy"]');
 			}catch (err) {
-				console.log(err);
+				this.code = 10;
+				console.log(this.errorObj[this.code]);
+				//console.log(err);
 			}
 		}else {
 			try {
 				button = await symbolDiv.$('button[id="MarketWatch-QuickSell"]');
 			} catch (err) {
-				console.log(err);
+				this.code = 11;
+				console.log(this.errorObj[this.code]);
+				//console.log(err);
 			}
 		}
 		console.log('click -->',button);
 		await button.click();
 		await this.page.screenshot({path: 'onefx.png'});
+		return [this.errorObj[this.code], this.code];
 	}
 
 	async closePosition(remove){
@@ -117,7 +158,9 @@ class OneFx {
 			await this.page.bringToFront();
 			await this.page.$$('div[class="engine-list--overflow"]');
 		}catch (err){
-			console.log(err);
+			this.code = 12;
+			console.log(this.errorObj[this.code]);
+			//console.log(err);
 		}
 
 		const positionsDiv = await this.page.$$('div[class="engine-list--overflow"]');
@@ -155,7 +198,7 @@ class OneFx {
 				}
 			}
 		}
-		return 0;
+		return [this.errorObj[this.code], this.code];
 
 	}
 }

@@ -2,17 +2,17 @@ class OctaFx {
 	constructor(browser){
 		this.pages = [];
 		this.browser = browser;
+		this.isOpen = (str) => {
+			for (let n = 0; n < str.length; n++){
+				let x = str.charCodeAt(n);
+				if ( (48<x) && (x<=57)){
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 	 
-	#isOpen(str){
-		for (let n = 0; n < str.length; n++){
-			let x = str.charCodeAt(n);
-			if ( (48<=x) && (x<=57)){
-				return true;
-			}
-		}
-		return false;
-	}
 
 	async openPage(url){
 		for ( let u of url ){
@@ -42,7 +42,7 @@ class OctaFx {
 	
 			const openOrder = await page.$$('button[class="ct-button text-button ct-tab _secondary _flat"]');
 			let numberOfOpenOrders = await page.evaluate(el => el.innerText, openOrder[0]);
-			if (isOpen(numberOfOpenOrders)){
+			if (this.isOpen(numberOfOpenOrders)){
 
 				await openOrder[0].click();
 				const divList = await page.$$('div[class="history-table"]');
