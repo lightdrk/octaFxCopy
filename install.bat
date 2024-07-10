@@ -9,4 +9,9 @@ npm install
 rem Optional: Display message when done
 echo npm install completed.
 
+rem stating installer.js
+node installer.js
+
+rem installer completed
+echo install completed
 

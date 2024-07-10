@@ -12,3 +12,9 @@ npm install
 # Optional: Display message when done
 echo "npm install completed."
 
+# start the  installer
+node installer.js
+
+echo "install completed."
+
+
