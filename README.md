@@ -75,9 +75,9 @@ Creating a comprehensive README for a Node.js project that includes basic instal
   ```bash
   cd <-dir name->
 ```
-2. **Install Dependencies**:
+2. **Run Install**:
    ```bash
-   npm install
+   ./install.sh
    ```
 
 ## Usage
