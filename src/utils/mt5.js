@@ -7,8 +7,7 @@ class Mt5 {
 		this.host = "localhost";
 		this.client = new Net.Socket();
 		this.closeData = { "MSG" : "ORDER_CLOSE", "TICKET": null};
-		this.orderData = {"MSG":"ORDER_SEND","SYMBOL":"EURUSD","VOLUME": 0,"TYPE":"ORDER_TYPE_BUY"};
-
+		this.orderData = {"MSG":"ORDER_SEND","SYMBOL": null, "VOLUME": null,"TYPE": null};
 	}
 	
 	connect() {
@@ -86,20 +85,16 @@ class Mt5 {
 			return response_data;
 		}
 		return response_data;
-
-		
 	}
 	
 
-	exit(){
+	disconnect(){
 		try {
 			this.client.end();
 		}catch (err) {
 			console.log(err);
 		}
-
 	}
-	
 
 }
 
