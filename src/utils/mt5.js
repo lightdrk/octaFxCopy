@@ -5,7 +5,7 @@ const host = "localhost";
 
 const client = new Net.Socket();
 client.connect(port,host, function() {
-	client.write(`'{"MSG":"QUOTE","SYMBOL":"EURUSD"}' + '\r\n'`);
+	client.write('{"MSG":"QUOTE","SYMBOL":"EURUSD"}');
 
 });
 
