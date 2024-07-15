@@ -57,7 +57,7 @@ class Mt5 {
 
 		try {
 			this.client.on('data', function(chunk, response_data){
-				console.log(chunk);
+				console.log(chunk.toString());
 				response_data = JSON.parse(chunk.toString());
 			});
 		}catch (err) {
