@@ -6,7 +6,7 @@ let details = null;
 if (isConnected){
 	details = m.getDetails("EURUSD");
 }
-console.log(dtails);
+console.log(details);
 let isOpen = null;
 if (details){
 	console.log("in")
