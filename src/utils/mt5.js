@@ -48,6 +48,7 @@ class Mt5 {
 		this.orderData["SYMBOL"] = data["symbol"];
 		this.orderData["VOLUME"] = data["volume"];
 		this.orderData["TYPE"] = `ORDER_TYPE_${data["image"]}`;
+		console.log(this.orderData);
 		try {
 			this.client.write(this.orderData);
 		}catch(err) {
@@ -57,6 +58,7 @@ class Mt5 {
 
 		try {
 			this.client.on('data', function(chunk, response_data){
+				console.log(chunk);
 				response_data = JSON.parse(chunk.toString());
 			});
 		}catch (err) {
