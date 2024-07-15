@@ -24,7 +24,7 @@ class Mt5 {
 	getDetails(symbol){
 		let response_data = null;
 		try{
-			this.client.write(`{"MSG":"QUOTE","SYMBOL": ${symbol}}` + '\r\n');
+			this.client.write(`{"MSG":"QUOTE","SYMBOL": "${symbol}"}` + '\r\n');
 		}catch (err) {
 			console.log(error);
 			return response_data;
