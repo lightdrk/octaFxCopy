@@ -8,9 +8,7 @@ if (isConnected){
 }
 console.log('details-->',details);
 let isOpen = null;
-if (details){
-	console.log("in")
-	isOpen = m.openOrder({"symbol": "EURUSD", "volume": 0.5, "image": "SELL"});
-}
+console.log("in")
+isOpen = m.openOrder({"symbol": "EURUSD", "volume": 0.5, "image": "SELL"});
 
 m.disconnect();
