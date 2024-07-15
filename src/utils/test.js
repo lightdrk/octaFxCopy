@@ -6,4 +6,9 @@ let details = null;
 if (isConnected){
 	details = m.getDetails("EURUSD");
 }
+
+if (details){
+	m.openOrder({"symbol": "EURUSD", "volume": 0.5, "image": "SELL"});
+}
+
 m.disconnect();
