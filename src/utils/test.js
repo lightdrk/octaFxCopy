@@ -1,4 +1,4 @@
-const Mt5 = require('mt5');
+const Mt5 = require('./mt5');
 
 let m = new Mt5();
 let isConnected = m.connect();
