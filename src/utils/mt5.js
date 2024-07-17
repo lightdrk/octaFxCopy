@@ -43,7 +43,7 @@ class Mt5 {
 		return response_data;
 	}
 	
-	openOrder(data) {
+	async openOrder(data) {
 		let response_data = null;
 		this.orderData["SYMBOL"] = data["symbol"];
 		this.orderData["VOLUME"] = data["volume"];
