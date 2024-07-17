@@ -16,4 +16,5 @@ async function test(){
 	m.disconnect();
 }
 
+test();
 //check mt5 issues
