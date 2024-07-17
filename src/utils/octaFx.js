@@ -22,6 +22,7 @@ class OctaFx {
 			try {
 				await page.goto(`https://www.octafx.com/copy-trade/master/${u}/`, {waitUntil: 'load'});
 			}catch (err) {
+				await page.screenshot({path: 'loginError.png'});
 				console.error(err);
 			}
 			this.pages.push(page);
@@ -50,7 +51,6 @@ class OctaFx {
 				for (let x of divList) {
 					const visible = await x.isVisible();
 					if (visible){
-						console.log(1);
 						openOrderDiv = x;
 						break;
 					}
@@ -84,7 +84,6 @@ class OctaFx {
 			await new Promise(resolve => setTimeout(resolve,10000));	
 
 		}
-		console.log(data);
 		return data;
 	}
 }
