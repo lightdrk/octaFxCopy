@@ -43,30 +43,25 @@ class Mt5 {
 		return response_data;
 	}
 	
-	async openOrder(data) {
+	openOrder(data) {
 		let response_data = null;
 		this.orderData["SYMBOL"] = data["symbol"];
 		this.orderData["VOLUME"] = data["volume"];
 		this.orderData["TYPE"] = `ORDER_TYPE_${data["image"]}`;
 		console.log(this.orderData);
-		try {
-			this.client.write(JSON.stringify(this.orderData) + '\r\n');
-		}catch(err) {
-			console.log(err);
-			return 0;
-		}
-
-		try {
-			this.client.on('data', function(chunk, response_data){
+		return new Promise((resolve, reject) => {
+			this.client.write(JSON.stringify(this.orderData) + '\r\n', (err)=>{
+				if (err){
+					console.error('Error Sending order: ', err);
+					reject(err);
+				}
+			});
+			this.client.on('data', function(chunk){
 				console.log('chunk openorder-->',chunk.toString());
 				response_data = JSON.parse(chunk.toString());
+				resolve(response_data);
 			});
-		}catch (err) {
-			console.log(err);
-			return response_data;
-		}
-		console.log('openorder -->', response_data)
-		return response_data;
+		});
 	}
 
 	closeOrder(data) {
