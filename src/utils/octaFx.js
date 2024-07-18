@@ -77,7 +77,7 @@ class OctaFx {
 					const cur = await page.evaluate( el => el.innerText, currency[n] );
 					const dur = await page.evaluate( el => el.innerText, duration[n] );
 					const opt = await page.evaluate( el => el.innerText, open_time[n] );
-					data.push({volume: vlm, symbol: cur, image: call[img], duration: dur, open_time: opt});
+					data.push({volume: vlm, symbol: cur, type: call[img], duration: dur, open_time: opt});
 				}
 
 			}

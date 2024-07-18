@@ -4,7 +4,7 @@ function compare(old, newData) {
 		console.log(x);
 		var isIn = null;
 		for (let y of newData){
-			if (JSON.stringify(x) == JSON.stringify(y)){
+			if (old.open_time === newData.open_time && old.volume === newData.volume && old.symbol === newData.symbol && old.type === newData.type){
 				isIn = 1;
 				break;
 			}

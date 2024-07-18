@@ -9,8 +9,20 @@ async function test(){
 	console.log("in")
 	isOpen = await m.openOrder({"symbol": "EURUSD", "volume": 0.5, "image": "BUY"});
 	console.log("isOpen? --> ", isOpen);
+	let close = null;
+	if (isOpen.ERROR_ID == 0){
+		setTimeout(()=>{console.log('waiting time'), 5000});
+		close = m.closeOrder(isOpen.ORDER);
+	}
+	if (close.ERROR_ID === 0){
+		console.log("order closed ");
+	}else {
+		console.log(close);
+		console.log("error closing order");
+	
+	}
+
 	m.disconnect();
 }
 
 test();
-//check mt5 issues
