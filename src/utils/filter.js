@@ -24,7 +24,7 @@ function filter(old, newData) {
 			// issue here is if old data has one data that is similar to all the data in new taht's issue
 			// if their is not time;
 			for (let y of old){
-				if (JSON.stringify(x) == JSON.stringify(y)){
+				if (old.open_time === newData.open_time && old.volume === newData.volume && old.symbol === newData.symbol && old.type === newData.type){
 					isIn = 1;
 					break;
 				}

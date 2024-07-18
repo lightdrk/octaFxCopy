@@ -46,7 +46,7 @@ TODO: store data , check this file, issue here with getting ticket check filter 
 
 		//opening position
 		for (let create of creation){
-			console.log('open postiion -->',create)
+			console.log('open postiion -->',create);
 			let isOpen = await mt.openOrder(create);
 			if (isOpen){
 				await sendMessages('-4074924590,', `Position opened ${JSON.stringify(create)}`);
@@ -59,7 +59,3 @@ TODO: store data , check this file, issue here with getting ticket check filter 
 		old = newData;
 		fs.writeFileSync("cached.json",JSON.stringify(old),"utf-8");
 	}
-
-
-
-
