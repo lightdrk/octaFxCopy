@@ -40,7 +40,7 @@ class Mt5 {
 	openOrder(data) {
 		let response_data = null;
 		this.orderData["SYMBOL"] = data["symbol"];
-		this.orderData["VOLUME"] = data["volume"];
+		this.orderData["VOLUME"] = parseInt(data["volume"]);
 		this.orderData["TYPE"] = `ORDER_TYPE_${data["type"]}`;
 		console.log(this.orderData);
 		return new Promise((resolve, reject) => {
@@ -59,7 +59,7 @@ class Mt5 {
 
 	closeOrder(data) {
 		let response_data = null;
-		this.closeData["TICKET"] = data["ticket"];
+		this.closeData["TICKET"] = parseInt(data["ticket"]);
 		return new Promise((resolve, reject) => {
 			this.client.write(this.closeData, (err)=>{
 				if (err){

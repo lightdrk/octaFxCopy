@@ -61,7 +61,7 @@ try{
 		for (let create of creation){
 			console.log('open postiion -->',create);
 			let isOpen = await mt.openOrder(create);
-			console.log(`**** Opening order ${isOpen} ****`);
+			console.log(`**** Opening order ${JSON.stringify(isOpen)} ****`);
 
 			if (isOpen){
 				await sendMessages('-4074924590,', `Position opened ${JSON.stringify(isOpen)}`);
