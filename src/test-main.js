@@ -34,8 +34,8 @@ try{
 		await browser.close();
 	});
 	const mt = new mt5();
-	mt.connect();
-	while (true){
+	let isConnected = mt.connect();
+	while (isConnected){
 		const newData = await octafx.dataRetr();//[{'symbol': 'GBPUSD', 'volume': '0.2', 'image': 'Sell'}]
 		console.log('newData -->',newData);
 		if (old === null || old.length == 0){
