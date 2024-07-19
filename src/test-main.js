@@ -1,6 +1,7 @@
 const os = require('os');
 const fs = require('fs');
 const process = require('process');
+const mt5 = require('./utils/mt5');
 const puppeteer = require('puppeteer');
 const OctaFx  = require('./utils/octaFx');
 const { filter } = require('./utils/filter');
@@ -32,6 +33,8 @@ try{
 	process.on('SIGTSTP', async ()=>{
 		await browser.close();
 	});
+	const mt = new mt5();
+	mt.connect();
 	while (true){
 		const newData = await octafx.dataRetr();//[{'symbol': 'GBPUSD', 'volume': '0.2', 'image': 'Sell'}]
 		console.log('newData -->',newData);

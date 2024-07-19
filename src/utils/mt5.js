@@ -12,13 +12,16 @@ class Mt5 {
 	
 	connect() {
 		try{
-			this.client.connect(this.port, this.host);
+			return new Promise((resolve, reject) => {
+				this.client.connect(this.port, this.host);
+				if (err){
+					console.error(err);
+				}
+			});
 		}catch (err){
 			console.log(error);
 			return 0;
 		}
-
-		return 1
 	}
 
 	getDetails(symbol){
