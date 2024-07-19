@@ -27,12 +27,6 @@ try{
 	const octafx = new OctaFx(browser);
 	let creation = [];
 	await octafx.openPage(["21139687","20945089","22737135","27366823"]);
-	process.on('SIGINT', async ()=>{ 
-		await browser.close();
-	});
-	process.on('SIGTSTP', async ()=>{
-		await browser.close();
-	});
 	const mt = new mt5();
 	let isConnected = mt.connect();
 	while (isConnected){
