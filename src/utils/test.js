@@ -7,7 +7,7 @@ async function test(){
 	console.log(isConnected);
 	let isOpen = null;
 	console.log("in")
-	isOpen = await m.openOrder({"symbol": "EURUSD", "volume": 0.5, "image": "BUY"});
+	isOpen = await m.openOrder({"symbol": "EURUSD", "volume": 0.5, "type": "BUY"});
 	console.log("isOpen? --> ", isOpen);
 	let close = null;
 	if (isOpen.ERROR_ID == 0){
