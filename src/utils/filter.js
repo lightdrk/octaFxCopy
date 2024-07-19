@@ -5,7 +5,7 @@ function toCheck(time){
 	}
 	if (lower.includes('m')){
 		let int = parseInt(lower);
-		if (int < 2){
+		if (int < 30){
 			return true;
 		}
 		return false;
