@@ -47,8 +47,9 @@ try{
 			console.log('remove -->',remove);
 			for (let ticket of remove){
 				let isClosed = await mt.closeOrder(ticket);
+				console.log(`****Closing order ${isClosed} ******`);
 				if (isClosed){
-					await sendMessages('-4074924590,', `Removed ${JSON.stringify(remove)}`);
+					await sendMessages('-4074924590,', `Removed ${JSON.stringify(isClosed)}`);
 				}else{
 					await sendMessages('-4074924590,', `Unable to Remove ${JSON.stringify(remove)}`);
 				}
@@ -60,8 +61,10 @@ try{
 		for (let create of creation){
 			console.log('open postiion -->',create);
 			let isOpen = await mt.openOrder(create);
+			console.log(`**** Opening order ${isOpen} ****`);
+
 			if (isOpen){
-				await sendMessages('-4074924590,', `Position opened ${JSON.stringify(create)}`);
+				await sendMessages('-4074924590,', `Position opened ${JSON.stringify(isOpen)}`);
 			}else {
 				await sendMessages('-4074924590,', `Unable to open position ${JSON.stringify(create)}`);
 			}
