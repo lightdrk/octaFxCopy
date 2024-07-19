@@ -34,7 +34,6 @@ function filter(old, newData) {
 			}
 		}
 	}
-	console.log(update);
 	return update;
 
 }
