@@ -8,7 +8,7 @@ const { filter } = require('./utils/filter');
 const { compare } = require('./utils/compare');
 const { sendMessages } = require('./utils/notify');
 
-//TODO: store data , check this file, issue here with getting ticket check filter it has ticket new data which can cause it to always be yes for data, 
+//TODO: new data add  to old add tickets too  
 let old = null;
 try{
 	old = fs.readFileSync("cached.json",'utf-8');
@@ -58,11 +58,11 @@ try{
 		}
 
 		//opening position
-		for (let create of creation){
-			console.log('open postiion -->',create);
-			let isOpen = await mt.openOrder(create);
+		for (let index=0; index < creation.length; index++){
+			console.log('open postiion -->',creation[index]);
+			let isOpen = await mt.openOrder(creation[index]);
 			console.log(`**** Opening order ${JSON.stringify(isOpen)} ****`);
-
+			creation["ticket"] = isOpen["ORDER"]; 
 			if (isOpen){
 				await sendMessages('-4074924590,', `Position opened ${JSON.stringify(isOpen)}`);
 			}else {
@@ -71,7 +71,7 @@ try{
 		}
 		await new Promise(resolve => setTimeout(resolve,2000));
 		console.log('Updating cache ....');
-		old = newData;
+		old = creation;
 		fs.writeFileSync("cached.json",JSON.stringify(old),"utf-8");
 	}
 })();
