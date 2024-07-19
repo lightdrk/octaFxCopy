@@ -55,7 +55,6 @@ try{
 		for (let index=0; index < creation.length; index++){
 			console.log('open postiion -->',creation[index]);
 			let isOpen = await mt.openOrder(creation[index]);
-			console.log(`**** Opening order ${JSON.stringify(isOpen.ORDER)} ****`);
 			creation[index]["ticket"] = isOpen["ORDER"]; 
 			if (isOpen){
 				await sendMessages('-4074924590,', `Position opened ${JSON.stringify(isOpen)}`);
@@ -64,9 +63,8 @@ try{
 			}
 		}
 		await new Promise(resolve => setTimeout(resolve,2000));
-		console.log('Updating cache ....', creation);
+		console.log('Updating cache ....');
 		old = creation;
-		console.log(old);
 		fs.writeFileSync("cached.json",JSON.stringify(old),"utf-8");
 	}
 })();
