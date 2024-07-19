@@ -1,4 +1,5 @@
 const os = require('os');
+const fs = require('fs');
 const process = require('process');
 const puppeteer = require('puppeteer');
 const OctaFx  = require('./utils/octaFx');
@@ -6,8 +7,21 @@ const { filter } = require('./utils/filter');
 const { compare } = require('./utils/compare');
 const { sendMessages } = require('./utils/notify');
 
-TODO: store data , check this file, issue here with getting ticket check filter it has ticket new data which can cause it to always be yes for data, 
+//TODO: store data , check this file, issue here with getting ticket check filter it has ticket new data which can cause it to always be yes for data, 
+require('dotenv').config();
 
+const config = process.env;
+console.log(config);
+const fx = new OneFx(config);
+let old = null;
+try{
+	old = fs.readFileSync("cached.json",'utf-8');
+	console.log(JSON.parse(old));
+	old = JSON.parse(old);
+	console.log('cache -->', old);
+}catch (err){
+	console.log(err);
+}
 (async ()=>{
 	const browser = await puppeteer.launch({
 		headless: true,
