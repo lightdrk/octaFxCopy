@@ -41,7 +41,7 @@ class Mt5 {
 		let response_data = null;
 		this.orderData["SYMBOL"] = data["symbol"];
 		this.orderData["VOLUME"] = data["volume"];
-		this.orderData["TYPE"] = `ORDER_TYPE_${data["image"]}`;
+		this.orderData["TYPE"] = `ORDER_TYPE_${data["type"]}`;
 		console.log(this.orderData);
 		return new Promise((resolve, reject) => {
 			this.client.write(JSON.stringify(this.orderData) + '\r\n', (err) => {
