@@ -73,3 +73,4 @@ try{
 		old = newData;
 		fs.writeFileSync("cached.json",JSON.stringify(old),"utf-8");
 	}
+})();
