@@ -17,9 +17,11 @@ function toCheck(time){
 function filter(old, newData) {
 	const update = [];
 	for (let x of newData){
+		console.log('***.... filtering ....***');
 		let time_duration = x.duration;
-		console.log(time_duration);
+		console.log('time_duration -->',time_duration);
 		let checker = toCheck(time_duration);
+		console.log(checker);
 		if (checker){
 			var isIn = null;
 			for (let y of old){
@@ -36,5 +38,4 @@ function filter(old, newData) {
 	return update;
 
 }
-
 module.exports.filter = filter;
