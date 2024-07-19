@@ -34,7 +34,7 @@ try{
 		console.log('newData -->',newData);
 		if (old === null || old.length == 0){
 			old = newData;
-			creation = newData;
+			creation = filter(old,newData);
 		}else {
 			// comparing old and new 
 			const remove = compare(old,newData);
