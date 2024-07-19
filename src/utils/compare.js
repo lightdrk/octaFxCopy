@@ -3,11 +3,11 @@ function compare(old, newData) {
 	for (let x of old){
 		var isIn = null;
 		for (let y of newData){
-			console.log(`${old.open_time} === ${newData.open_time}`, old.open_time === newData.open_time);
-			console.log(`${old.volume} === ${newData.volume}`, old.volume === newData.volume);
-			console.log(`${old.symbol} === ${newData.symbol}`, old.symbol === newData.symbol);
-			console.log(`${old.type} === ${newData.type}`,  old.type === newData.type);
-			if (old.open_time === newData.open_time && old.volume === newData.volume && old.symbol === newData.symbol && old.type === newData.type){
+			console.log(`${x.open_time} === ${y.open_time}`, x.open_time === y.open_time);
+			console.log(`${x.volume} === ${y.volume}`, x.volume === y.volume);
+			console.log(`${x.symbol} === ${y.symbol}`, x.symbol === y.symbol);
+			console.log(`${x.type} === ${y.type}`,  x.type === y.type);
+			if (x.open_time === y.open_time && x.volume === y.volume && x.symbol === y.symbol && x.type === y.type){
 				isIn = 1;
 				break;
 			}

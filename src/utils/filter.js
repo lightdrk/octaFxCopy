@@ -24,7 +24,7 @@ function filter(old, newData) {
 			// issue here is if old data has one data that is similar to all the data in new taht's issue
 			// if their is not time;
 			for (let y of old){
-				if (old.open_time === newData.open_time && old.volume === newData.volume && old.symbol === newData.symbol && old.type === newData.type){
+				if (y.open_time === x.open_time && y.volume === x.volume && y.symbol === x.symbol && y.type === x.type){
 					isIn = 1;
 					break;
 				}
