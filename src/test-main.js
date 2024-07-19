@@ -70,8 +70,9 @@ try{
 			}
 		}
 		await new Promise(resolve => setTimeout(resolve,2000));
-		console.log('Updating cache ....');
+		console.log('Updating cache ....', creation);
 		old = creation;
+		console.log(old);
 		fs.writeFileSync("cached.json",JSON.stringify(old),"utf-8");
 	}
 })();
