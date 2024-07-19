@@ -55,8 +55,8 @@ try{
 		for (let index=0; index < creation.length; index++){
 			console.log('open postiion -->',creation[index]);
 			let isOpen = await mt.openOrder(creation[index]);
-			console.log(`**** Opening order ${JSON.stringify(isOpen)} ****`);
-			creation["ticket"] = isOpen["ORDER"]; 
+			console.log(`**** Opening order ${JSON.stringify(isOpen.ORDER)} ****`);
+			creation[index]["ticket"] = isOpen["ORDER"]; 
 			if (isOpen){
 				await sendMessages('-4074924590,', `Position opened ${JSON.stringify(isOpen)}`);
 			}else {
