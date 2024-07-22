@@ -44,8 +44,8 @@ try{
 				console.log(`****Closing order ${isClosed} ******`);
 				if (isClosed){
 					for (let i = 0; i < old.length; i++){
-						if (old[i].ticket === ticket){
-							old.splice(index,1);
+						if (old[i].ticket === ticket.ticket){
+							old.splice(i,1);
 						}	
 					}
 					await sendMessages('-4074924590,', `Removed ${JSON.stringify(isClosed)}`);
