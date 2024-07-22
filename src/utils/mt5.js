@@ -61,7 +61,7 @@ class Mt5 {
 		let response_data = null;
 		this.closeData["TICKET"] = parseInt(data["ticket"]);
 		return new Promise((resolve, reject) => {
-			this.client.write(this.closeData, (err)=>{
+			this.client.write(JSON.stringify(this.closeData), (err)=>{
 				if (err){
 					console.error('Error closing order: ', err);
 					reject(err);
