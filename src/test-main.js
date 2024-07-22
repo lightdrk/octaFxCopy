@@ -60,7 +60,7 @@ try{
 			}else {
 				await sendMessages('-4074924590,', `Unable to open position ${JSON.stringify(create)}`);
 			}
-			old.push(creation);
+			old.push(creation[index]);
 		}
 		await new Promise(resolve => setTimeout(resolve,2000));
 		console.log('Updating cache ....', old);
