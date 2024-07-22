@@ -43,6 +43,11 @@ try{
 				let isClosed = await mt.closeOrder(ticket);
 				console.log(`****Closing order ${isClosed} ******`);
 				if (isClosed){
+					for (let i = 0; i < data.length; i++){
+						if (data[i].ticket === ticket){
+							data.splice(index,1);
+						}	
+					}
 					await sendMessages('-4074924590,', `Removed ${JSON.stringify(isClosed)}`);
 				}else{
 					await sendMessages('-4074924590,', `Unable to Remove ${JSON.stringify(remove)}`);
