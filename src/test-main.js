@@ -43,9 +43,9 @@ try{
 				let isClosed = await mt.closeOrder(ticket);
 				console.log(`****Closing order ${isClosed} ******`);
 				if (isClosed){
-					for (let i = 0; i < data.length; i++){
-						if (data[i].ticket === ticket){
-							data.splice(index,1);
+					for (let i = 0; i < old.length; i++){
+						if (old[i].ticket === ticket){
+							old.splice(index,1);
 						}	
 					}
 					await sendMessages('-4074924590,', `Removed ${JSON.stringify(isClosed)}`);
