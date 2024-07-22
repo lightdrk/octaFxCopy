@@ -9,7 +9,7 @@ const { compare } = require('./utils/compare');
 const { sendMessages } = require('./utils/notify');
 
 //TODO: new data add  to old add tickets too  
-let old = null;
+let old = [];
 try{
 	old = fs.readFileSync("cached.json",'utf-8');
 	console.log(JSON.parse(old));
@@ -34,7 +34,6 @@ try{
 		console.log('newData -->',newData);
 		if (old === null || old.length == 0){
 			creation = filter(old,newData);
-			old = newData;
 		}else {
 			// comparing old and new 
 			const remove = compare(old,newData);
