@@ -61,11 +61,10 @@ try{
 			}else {
 				await sendMessages('-4074924590,', `Unable to open position ${JSON.stringify(create)}`);
 			}
+			old.push(creation);
 		}
 		await new Promise(resolve => setTimeout(resolve,2000));
-		console.log('Updating cache ....');
-		old = creation;
-		console.log(old);
+		console.log('Updating cache ....', old);
 		fs.writeFileSync("cached.json",JSON.stringify(old),"utf-8");
 	}
 })();
