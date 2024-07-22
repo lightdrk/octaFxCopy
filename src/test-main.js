@@ -33,8 +33,8 @@ try{
 		const newData = await octafx.dataRetr();//[{'symbol': 'GBPUSD', 'volume': '0.2', 'image': 'Sell'}]
 		console.log('newData -->',newData);
 		if (old === null || old.length == 0){
-			old = newData;
 			creation = filter(old,newData);
+			old = newData;
 		}else {
 			// comparing old and new 
 			const remove = compare(old,newData);
