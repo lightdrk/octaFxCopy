@@ -39,6 +39,7 @@ try{
 			const remove = compare(old,newData);
 			console.log('remove -->',remove);
 			for (let ticket of remove){
+				console.log(ticket);
 				let isClosed = await mt.closeOrder(ticket);
 				console.log(`****Closing order ${isClosed} ******`);
 				if (isClosed){
