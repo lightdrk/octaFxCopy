@@ -14,7 +14,7 @@ class OctaFx {
 	}
 	 
 
-	async openPage(url){
+	async openPage(url, refresh_time){
 		for ( let u of url ){
 			const page = await this.browser.newPage();
 			const customUserAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36';
@@ -86,7 +86,7 @@ class OctaFx {
 				}
 
 			}
-			await new Promise(resolve => setTimeout(resolve,10000));	
+			await new Promise(resolve => setTimeout(resolve,refresh_time));	
 
 		}
 		return data;

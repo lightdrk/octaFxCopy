@@ -20,7 +20,7 @@ if (os.platform() === "linux"){
 	data = `USERNAME=${username}\nPASS=${password}`;
 	type = "Run.sh";
 }else {
-	contentRun = `@echo off\ncd /d "${curr}"\nnode main.js\npause`;
+	contentRun = `@echo off\ncd /d "${curr}"\nstart cmd /k "node main.js"`;
 	data = `USER=${username}\nPASS=${password}`;		
 }
 data = `${data}\nTOKEN=${token}\nGROUP=${group}`

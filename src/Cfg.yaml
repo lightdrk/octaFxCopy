@@ -1,0 +1,10 @@
+#configuration file
+
+---
+website:
+  #add website here in similar fashion/style to comment the site use #
+  - 27341539
+  - 21139687
+  - 20945089
+refresh_time: 7
+telegram: "-4074924590," 

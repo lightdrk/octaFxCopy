@@ -12,6 +12,7 @@
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "fs": "^0.0.1-security",
+    "js-yaml": "^4.1.0",
     "prompt-sync": "^4.2.0",
     "puppeteer": "^22.12.0"
   }
