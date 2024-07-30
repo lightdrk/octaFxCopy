@@ -11,10 +11,11 @@ class OctaFx {
 			}
 			return false;
 		};
+		this.ERROR = null;
 	}
 	 
 
-	async openPage(url, refresh_time){
+	async openPage(url){
 		for ( let u of url ){
 			const page = await this.browser.newPage();
 			const customUserAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36';
@@ -31,7 +32,7 @@ class OctaFx {
 		console.log(this.pages);
 	}
 
-	async dataRetr() {
+	async dataRetr(refresh_time) {
 		console.log(this.pages);
 		const data =[];
 		const call = {'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iI0U3RjFGRiIvPgo8cGF0aCBkPSJNMTcgMTZMMTcgN0w4IDciIHN0cm9rZT0iIzBENkZGQiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHJlY3QgeD0iMTUuODcyMSIgeT0iNi40OTczOCIgd2lkdGg9IjIuMjk0NDYiIGhlaWdodD0iMTMuMjkxNSIgcng9IjEuMTQ3MjMiIHRyYW5zZm9ybT0icm90YXRlKDQ1IDE1Ljg3MjEgNi40OTczOCkiIGZpbGw9IiMwRDZGRkIiLz4KPC9zdmc+Cg==': 'BUY', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iI0ZGRUFDQyIvPgo8cGF0aCBkPSJNOCAxNkwxNyAxNkwxNyA3IiBzdHJva2U9IiNGRjk0MDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxyZWN0IHg9IjE2LjcwMjYiIHk9IjE1LjAzMDYiIHdpZHRoPSIxLjI3NTM4IiBoZWlnaHQ9IjEyLjE4MSIgcng9IjAuNjM3NjkyIiB0cmFuc2Zvcm09InJvdGF0ZSgxMzUgMTYuNzAyNiAxNS4wMzA2KSIgZmlsbD0iI0ZGOTQwMCIgc3Ryb2tlPSIjRkY5NDAwIi8+Cjwvc3ZnPgo=': 'SELL'};
@@ -41,13 +42,40 @@ class OctaFx {
 			try {
 				await page.reload({waitUntil: 'load'});
 			}catch (err){
-				console.log('error reloading page ');
+				this.ERROR = {'error':err, 'err_type': 'critical'};
+				console.log('error reloading page \nWaiting for 10sec to reload');
+				await new Promise(resolve => setTimeout(resolve,10000));
+			}
+
+			if (this.ERROR){
+				try{
+					await page.reload({waitUntil: 'load'});
+				}catch (err){
+					this.ERROR = {'error':err, 'err_type': 'critical'};
+				}
 			}
 			
-			await page.screenshot({path: 'octafx.png'});
+			try {
+				await page.screenshot({path: 'octafx.png'});
+			}catch (err){
+				this.ERROR = {'error':err, 'err_type': 'normal'};
+			}
 	
-			const openOrder = await page.$$('button[class="ct-button text-button ct-tab _secondary _flat"]');
-			let numberOfOpenOrders = await page.evaluate(el => el.innerText, openOrder[0]);
+			let openOrder = null;
+			try{
+				openOrder = await page.$$('button[class="ct-button text-button ct-tab _secondary _flat"]');
+			}catch (err){
+				this.Error = {'error': err, 'err_type': 'critical'};
+			}
+
+			let numberOfOpenOrders 
+			if (openOrder){
+				numberOfOpenOrders = await page.evaluate(el => el.innerText, openOrder[0]);
+			}else {
+				this.Error = {'error': 'openOrder html not found', 'err_type': 'critical'};
+				await page.Screenshot({path: 'openOrder.png'});
+			}
+
 			if (this.isOpen(numberOfOpenOrders)){
 
 				await openOrder[0].click();
@@ -65,7 +93,9 @@ class OctaFx {
 					await openOrderDiv.waitForSelector('img',{timeout:3000});
 					await openOrderDiv.waitForSelector('div[class="history-table__volume"]',{timeout:3000});
 				}catch (err){
-					console.log("no updates");
+					console.log("no updates\n waiting 100sec to reload");
+					await new Promise(resolve => setTimeout(resolve,100000));
+					break;
 					//console.error(err);
 				}
 

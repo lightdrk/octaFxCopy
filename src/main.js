@@ -26,7 +26,7 @@ let data_yaml;
 
 try {
 	data_yaml = yaml.load(config);
-	console.log(data_yml);
+	console.log(data_yaml);
 }catch (err){
 	console.log('****error parsing config file****');
 	console.error(err);
@@ -47,11 +47,11 @@ try{
 	});
 	const octafx = new OctaFx(browser);
 	let creation = [];
-	await octafx.openPage(data_yaml.website,data_yaml.refresh_time);
+	await octafx.openPage(data_yaml.website);
 	const mt = new mt5();
 	let isConnected = mt.connect();
 	while (isConnected){
-		const newData = await octafx.dataRetr();//[{'symbol': 'GBPUSD', 'volume': '0.2', 'image': 'Sell'}]
+		const newData = await octafx.dataRetr(data_yaml.refresh_time);//[{'symbol': 'GBPUSD', 'volume': '0.2', 'image': 'Sell'}]
 		console.log('newData -->',newData);
 		if (old === null || old.length == 0){
 			creation = filter(old,newData);
