@@ -64,24 +64,24 @@ class OctaFx {
 							break;
 						}
 					}
-				}
 
-				await openOrderDiv.waitForSelector('img',{timeout:3000});
-				await openOrderDiv.waitForSelector('div[class="history-table__volume"]',{timeout:3000});
+					await openOrderDiv.waitForSelector('img',{timeout:3000});
+					await openOrderDiv.waitForSelector('div[class="history-table__volume"]',{timeout:3000});
 
-				const images = await openOrderDiv.$$('img');
-				const volume = await openOrderDiv.$$('div[class="history-table__volume"]');
-				const currency = await openOrderDiv.$$('div[class="history-table__currency"]');
-				const duration = await openOrderDiv.$$('div[class="history-table__row-section _duration"]');
-				const open_time = await openOrderDiv.$$('div[class="history-table__row-section _time"]');
-					
-				for (let n = 0; n<volume.length; n++){
-					const vlm = await page.evaluate( el => el.innerText, volume[n] );
-					const img = await page.evaluate( el => el.src, images[n] );
-					const cur = await page.evaluate( el => el.innerText, currency[n] );
-					const dur = await page.evaluate( el => el.innerText, duration[n] );
-					const opt = await page.evaluate( el => el.innerText, open_time[n] );
-					data.push({volume: vlm, symbol: cur, type: call[img], duration: dur, open_time: opt});
+					const images = await openOrderDiv.$$('img');
+					const volume = await openOrderDiv.$$('div[class="history-table__volume"]');
+					const currency = await openOrderDiv.$$('div[class="history-table__currency"]');
+					const duration = await openOrderDiv.$$('div[class="history-table__row-section _duration"]');
+					const open_time = await openOrderDiv.$$('div[class="history-table__row-section _time"]');
+						
+					for (let n = 0; n<volume.length; n++){
+						const vlm = await page.evaluate( el => el.innerText, volume[n] );
+						const img = await page.evaluate( el => el.src, images[n] );
+						const cur = await page.evaluate( el => el.innerText, currency[n] );
+						const dur = await page.evaluate( el => el.innerText, duration[n] );
+						const opt = await page.evaluate( el => el.innerText, open_time[n] );
+						data.push({volume: vlm, symbol: cur, type: call[img], duration: dur, open_time: opt});
+					}
 				}
 			}catch (err){
 				console.log(err);
