@@ -84,8 +84,15 @@ class OctaFx {
 					}
 				}
 			}catch (err){
-				console.log(err);
-				await new Promise(resolve => setTimeout(resolve,refresh_time));
+				if (err.name === 'TimeoutError' && err.message.includes('div[class="history-table__volume"]')){
+					console.log('<<<<<<<<<<<<<<>OctaFx blocked us, waiting for 5 mins<>>>>>>>>>>>>>>>>>>>>>');
+					await new Promise(resolve => setTimeout(resolve,100000));
+
+				}else {
+					console.log(err);
+					cosole.log('waiting for time out');
+					await new Promise(resolve => setTimeout(resolve,refresh_time));
+				}
 				continue;
 			}
 			index ++;
