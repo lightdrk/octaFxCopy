@@ -6,5 +6,6 @@ website:
   - 27341539
   - 21139687
   - 20945089
-refresh_time: 7
+#refresh time of the page 1000-> 1sec , 10000 -> 10sec
+refresh_time: 7000
 telegram: "-4074924590," 
