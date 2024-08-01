@@ -11,7 +11,6 @@ class OctaFx {
 			}
 			return false;
 		};
-		this.ERROR = null;
 	}
 	 
 
@@ -34,6 +33,7 @@ class OctaFx {
 
 	async dataRetr(refresh_time) {
 		const data =[];
+		let error = null;
 		const call = {'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iI0U3RjFGRiIvPgo8cGF0aCBkPSJNMTcgMTZMMTcgN0w4IDciIHN0cm9rZT0iIzBENkZGQiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHJlY3QgeD0iMTUuODcyMSIgeT0iNi40OTczOCIgd2lkdGg9IjIuMjk0NDYiIGhlaWdodD0iMTMuMjkxNSIgcng9IjEuMTQ3MjMiIHRyYW5zZm9ybT0icm90YXRlKDQ1IDE1Ljg3MjEgNi40OTczOCkiIGZpbGw9IiMwRDZGRkIiLz4KPC9zdmc+Cg==': 'BUY', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iI0ZGRUFDQyIvPgo8cGF0aCBkPSJNOCAxNkwxNyAxNkwxNyA3IiBzdHJva2U9IiNGRjk0MDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxyZWN0IHg9IjE2LjcwMjYiIHk9IjE1LjAzMDYiIHdpZHRoPSIxLjI3NTM4IiBoZWlnaHQ9IjEyLjE4MSIgcng9IjAuNjM3NjkyIiB0cmFuc2Zvcm09InJvdGF0ZSgxMzUgMTYuNzAyNiAxNS4wMzA2KSIgZmlsbD0iI0ZGOTQwMCIgc3Ryb2tlPSIjRkY5NDAwIi8+Cjwvc3ZnPgo=': 'SELL'};
 		let index = 0;
 		while (index < this.pages.length) {
@@ -66,7 +66,7 @@ class OctaFx {
 					}
 
 					await openOrderDiv.waitForSelector('img',{timeout:3000});
-					await openOrderDiv.waitForSelector('div[class="history-table__volume"]',{timeout:3000});
+					await openOrderDiv.waitForSelector('div[class="history-table__volume"]',{timeout:5000});
 
 					const images = await openOrderDiv.$$('img');
 					const volume = await openOrderDiv.$$('div[class="history-table__volume"]');
@@ -86,20 +86,15 @@ class OctaFx {
 			}catch (err){
 				if (err.name === 'TimeoutError' && err.message.includes('div[class="history-table__volume"]')){
 					console.log('<<<<<<<<<<<<<<>OctaFx blocked us, waiting for 5 mins<>>>>>>>>>>>>>>>>>>>>>');
-					await new Promise(resolve => setTimeout(resolve,100000));
-
-				}else {
-					console.log(err);
-					cosole.log('waiting for time out');
-					await new Promise(resolve => setTimeout(resolve,refresh_time));
+					error = {err: err, "details": 'blocked'};
+					break;
 				}
-				continue;
+				console.log(err);
 			}
 			index ++;
 			await new Promise(resolve => setTimeout(resolve,refresh_time));	
-
 		}
-		return data;
+		return [data, error];
 	}
 }
 
