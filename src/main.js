@@ -52,7 +52,7 @@ try{
 	let isConnected = mt.connect();
 	while (isConnected){
 		const [newData, error ]= await octafx.dataRetr(data_yaml.refresh_time);//[{'symbol': 'GBPUSD', 'volume': '0.2', 'image': 'Sell'}]
-		if (error != null && error.details === 'blocked'){
+		if (error === null){
 			console.log('newData -->',newData);
 			if (old === null || old.length == 0){
 				creation = filter(old,newData);
@@ -92,7 +92,7 @@ try{
 			}
 			console.log('Updating cache ....', old);
 			fs.writeFileSync("cached.json",JSON.stringify(old),"utf-8");
-		}else {
+		}else if (error){
 			await sendMessages(data_yaml.telegram,`Blocked waiting for 5 mins to re-run`)
 			await new Promise(resolve => setTimeout(resolve,300000));
 		}		
