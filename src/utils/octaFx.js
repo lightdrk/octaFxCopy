@@ -33,6 +33,7 @@ class OctaFx {
 
 	async dataRetr(refresh_time) {
 		const data =[];
+		const error_arry =[];
 		let error = null;
 		const call = {'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iI0U3RjFGRiIvPgo8cGF0aCBkPSJNMTcgMTZMMTcgN0w4IDciIHN0cm9rZT0iIzBENkZGQiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHJlY3QgeD0iMTUuODcyMSIgeT0iNi40OTczOCIgd2lkdGg9IjIuMjk0NDYiIGhlaWdodD0iMTMuMjkxNSIgcng9IjEuMTQ3MjMiIHRyYW5zZm9ybT0icm90YXRlKDQ1IDE1Ljg3MjEgNi40OTczOCkiIGZpbGw9IiMwRDZGRkIiLz4KPC9zdmc+Cg==': 'BUY', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iI0ZGRUFDQyIvPgo8cGF0aCBkPSJNOCAxNkwxNyAxNkwxNyA3IiBzdHJva2U9IiNGRjk0MDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxyZWN0IHg9IjE2LjcwMjYiIHk9IjE1LjAzMDYiIHdpZHRoPSIxLjI3NTM4IiBoZWlnaHQ9IjEyLjE4MSIgcng9IjAuNjM3NjkyIiB0cmFuc2Zvcm09InJvdGF0ZSgxMzUgMTYuNzAyNiAxNS4wMzA2KSIgZmlsbD0iI0ZGOTQwMCIgc3Ryb2tlPSIjRkY5NDAwIi8+Cjwvc3ZnPgo=': 'SELL'};
 		let index = 0;
@@ -83,6 +84,7 @@ class OctaFx {
 						data.push({volume: vlm, symbol: cur, type: call[img], duration: dur, open_time: opt});
 					}
 					if (data.length == 0){
+						error = {"details": 'Error trying to retrive data'}
 						break;
 					}
 				}
