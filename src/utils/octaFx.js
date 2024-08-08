@@ -89,17 +89,17 @@ class OctaFx {
 					}
 				}
 			}catch (err){
+				console.error(err);
 				if (err.name === 'TimeoutError' && err.message.includes('div[class="history-table__volume"]')){
 					console.log('<<<<<<<<<<<<<<>OctaFx blocked us, waiting for 5 mins<>>>>>>>>>>>>>>>>>>>>>');
 					error = {err: err, "details": 'blocked'};
 					break;
 				}
-				if (err.name === 'Error' && err.message.includes('detached Frame')){
+				if (err.name === 'Error'){
 					console.log('browser was closed')
 					error = {err: err, "details": 'Browser Closed'};
 					break;
 				}
-				console.log(err);
 			}
 			index ++;
 			await new Promise(resolve => setTimeout(resolve,refresh_time));	
