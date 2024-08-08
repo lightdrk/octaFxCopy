@@ -82,6 +82,9 @@ class OctaFx {
 						const opt = await page.evaluate( el => el.innerText, open_time[n] );
 						data.push({volume: vlm, symbol: cur, type: call[img], duration: dur, open_time: opt});
 					}
+					if (data.length == 0){
+						break;
+					}
 				}
 			}catch (err){
 				if (err.name === 'TimeoutError' && err.message.includes('div[class="history-table__volume"]')){
