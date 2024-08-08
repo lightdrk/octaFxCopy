@@ -94,6 +94,11 @@ class OctaFx {
 					error = {err: err, "details": 'blocked'};
 					break;
 				}
+				if (err.name === 'Error' && err.message.includes('detached Frame')){
+					console.log('browser was closed')
+					error = {err: err, "details": 'Browser Closed'};
+					break;
+				}
 				console.log(err);
 			}
 			index ++;
