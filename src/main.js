@@ -92,9 +92,11 @@ try{
 			}
 			console.log('Updating cache ....', old);
 			fs.writeFileSync("cached.json",JSON.stringify(old),"utf-8");
-		}else if (error){
+		}else if (error.details === 'blocked'){
 			await sendMessages(data_yaml.telegram,`Blocked waiting for 5 mins to re-run`)
 			await new Promise(resolve => setTimeout(resolve,300000));
-		}		
+		}else if (error){
+			await new Promise(resolve => setTimeout(resolve,7000));
+		}
 	}
 })();
