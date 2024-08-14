@@ -96,10 +96,9 @@ try{
 			await sendMessages(data_yaml.telegram,`Blocked waiting for 5 mins to re-run`)
 			await new Promise(resolve => setTimeout(resolve,300000));
 		}else if (error.details.includes('closed')){
+			await sendMessages(data_yaml.telegram,`(browser Error) script exiting ..`)
 			console.log('exiting ...');
 			break;
-		}else if (error){
-			await new Promise(resolve => setTimeout(resolve,7000));
 		}
 	}
 })();

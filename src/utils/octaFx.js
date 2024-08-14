@@ -100,6 +100,8 @@ class OctaFx {
 					error = {err: err, "details": 'Browser Closed'};
 					break;
 				}
+				error = {err: err, "detail": 'none critical error'};
+				break;
 			}
 			index ++;
 			await new Promise(resolve => setTimeout(resolve,refresh_time));	
