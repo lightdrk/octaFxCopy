@@ -36,6 +36,7 @@ try{
 	old = fs.readFileSync("cached.json",'utf-8');
 	console.log(JSON.parse(old));
 	old = JSON.parse(old);
+	console.log('cache-->', old);
 }catch (err){
 	console.log(err);
 }
@@ -44,6 +45,7 @@ try{
 		headless: true,
 		defaultViewport: null,
 		args: ['--no-sandbox', '--disable-setuid-sandbox', '--start-maximized'],
+		userDataDir: '/dev/null',
 	});
 	const octafx = new OctaFx(browser);
 	let creation = [];
