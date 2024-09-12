@@ -24,7 +24,7 @@ try{
 }
 (async ()=>{
 	const browser = await puppeteer.launch({
-		headless: true,
+		headless: false,
 		defaultViewport: null,
 		args: ['--no-sandbox', '--disable-setuid-sandbox', '--start-maximized'],
 	});
