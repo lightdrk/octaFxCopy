@@ -72,7 +72,7 @@ class OneFx {
 			await this.page.waitForSelector('#cdk-drop-list-0', {timeout: 5000});
 		}catch (err) {
 			this.code = 6;
-			console.log(this.errorObj[code])
+			console.log(this.errorObj[this.code])
 			//console.log(err);
 		}
 		if (this.code > 1){
