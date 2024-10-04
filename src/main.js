@@ -53,7 +53,7 @@ try{
 		cache(old);
 	});
 	while (true){
-		const newData = await octafx.dataRetr();//[{'symbol': 'GBPUSD', 'volume': '0.2', 'image': 'Sell'}]
+		const [ newData, errors] = await octafx.dataRetr();//[{'symbol': 'GBPUSD', 'volume': '0.2', 'image': 'Sell'}]
 		console.log('newData -->',newData);
 		if (old === null || old.length == 0){
 			old = newData;
@@ -77,7 +77,7 @@ try{
 		}
 		await new Promise(resolve => setTimeout(resolve,2000));
 		console.log('Updating cache ....');
-		old = newData;
+		old = creation;
 		fs.writeFileSync("cached.json",JSON.stringify(old),"utf-8");
 	}
 

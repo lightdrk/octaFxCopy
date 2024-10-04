@@ -28,6 +28,18 @@ class OneFx {
 		};
 	}
 
+	#updateOpen(index) {
+		//this function cleans the open position list 
+		let newList = [];
+		for (let dex = 0; dex<this.openPositionList.length;dex++){
+			if (dex != index){
+				newList.push(this.openPositionList[dex]);
+			}
+		}
+		this.openPositionList = newList;
+		console.log("Updated open position list ------->", this.openPositionList);
+	}
+
 	async login(browser){
 		this.page = await browser.newPage();
 		//await this.page.bringToFront();
@@ -100,7 +112,7 @@ class OneFx {
 		for (let x of symbolsDiv){
 			let text = await this.page.evaluate(el => el.innerText, x);
 			console.log('onefx symbols -->',text);
-			console.log("check for text --->",text.includes(symbol));
+			console.log("check for text --->",text.includes(symbol), symbol);
 			if (text.includes(symbol)){
 				await x.click();
 				symbolDiv = x;
@@ -184,16 +196,19 @@ class OneFx {
 		}
 		console.log('In close position list of open position ---->',this.openPositionList);
 		for (let rem of remove){
-			for (let x of this.openPositionList){
-				console.log('while closing ---->',x.text)
+			for (let index=0; index < this.openPositionList.length; index++){
+				let x = this.openPositionList[index];
+				console.log('while closing ---->',x.text.toUpperCase(),rem.symbol)
 				console.log(x.text.includes(rem.symbol));
 				console.log(x.text.includes(rem.volume));
-				console.log(x.text.includes(rem.image));
+				console.log((x.text.toUpperCase()).includes(rem.type));
 
-				if (x.text.includes(rem.symbol) && x.text.includes(rem.volume) && x.text.includes(rem.image)){
+				if (x.text.includes(rem.symbol) && x.text.includes(rem.volume) && (x.text.toUpperCase()).includes(rem.type)){
 					const btn = x.closeEl;
 					console.log(btn);
 					await btn.click();
+					await new Promise(resolve => setTimeout(resolve,1000));
+					this.#updateOpen(index);
 					break;
 				}
 			}
