@@ -27,9 +27,8 @@ class OneFx {
 			12: "Remove failed"
 		};
 	}
-
+	
 	#updateOpen(index) {
-		//this function cleans the open position list 
 		let newList = [];
 		for (let dex = 0; dex<this.openPositionList.length;dex++){
 			if (dex != index){
@@ -39,7 +38,7 @@ class OneFx {
 		this.openPositionList = newList;
 		console.log("Updated open position list ------->", this.openPositionList);
 	}
-
+	
 	async login(browser){
 		this.page = await browser.newPage();
 		//await this.page.bringToFront();
@@ -108,11 +107,11 @@ class OneFx {
 		const symbolsDiv = await this.page.$$("div.list-element__wrapper");
 		let symbolDiv = null;
 
-		console.log(symbolsDiv);
+		console.log('symbols -->',symbolsDiv);
 		for (let x of symbolsDiv){
 			let text = await this.page.evaluate(el => el.innerText, x);
 			console.log('onefx symbols -->',text);
-			console.log("check for text --->",text.includes(symbol), symbol);
+			console.log("check for text --->",symbol ,text.includes(symbol),text);
 			if (text.includes(symbol)){
 				await x.click();
 				symbolDiv = x;
@@ -127,6 +126,7 @@ class OneFx {
 			console.log(this.errorObj[this.code]);
 			//console.log(err);
 		}
+		console.log(symbolDiv);
 		const inputField = await symbolDiv.$$('input[id="Market-Watch-VolumeEditField"]');
 		console.log('input -->', inputField[0],volume);
 		let text = await this.page.evaluate((el,volume) => el.value = volume, inputField[0],volume);
@@ -141,7 +141,7 @@ class OneFx {
 		}
 
 		let button = null;
-		if (callType === 'Buy' ){
+		if (callType === 'BUY' ){
 			try {
 				button = await symbolDiv.$('button[id="MarketWatch-QuickBuy"]');
 			}catch (err) {
@@ -176,7 +176,23 @@ class OneFx {
 		}
 
 		const positionsDiv = await this.page.$$('div[class="engine-list--overflow"]');
-		const openPosition = await positionsDiv[2].$$('div[class="list-element__wrapper"]');
+		if (positionsDiv.length < 3){
+			console.log('No position to Close ');
+			return [this.errorObj[this.code], this.code];
+		}
+		
+		let openPosition = null;
+		for (let elm of positionsDiv){
+			console.log('searching for open position div');
+			let open_elm_list = await elm.$$('button[id="closePositionButton"]');
+			console.log(open_elm_list)
+			if (open_elm_list.length){
+				console.log('found')
+				openPosition = await elm.$$('div[class="list-element__wrapper"]');
+				break;
+			}
+		}
+		console.log('openPosition ------->>>>>', openPosition);
 		for (let position of openPosition){
 			let text =  await this.page.evaluate(el => el.innerText, position);
 			text = text.replaceAll('\n', ' ');
@@ -190,9 +206,7 @@ class OneFx {
 					closeEl = e;
 				}
 			}
-
 			this.openPositionList.push({closeEl,text})
-
 		}
 		console.log('In close position list of open position ---->',this.openPositionList);
 		for (let rem of remove){
@@ -213,6 +227,7 @@ class OneFx {
 				}
 			}
 		}
+		this.openPositionList = [] //emptying the list 
 		return [this.errorObj[this.code], this.code];
 
 	}
