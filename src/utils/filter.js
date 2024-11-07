@@ -17,11 +17,14 @@ function toCheck(time){
 function filter(old, newData) {
 	const update = [];
 	let old_copy = [...old];
+	
 	for (let x of newData){
 		console.log('***.... filtering ....***');
+		console.log('old__copy arry---->', old_copy);
 		let time_duration = x.duration;
 		console.log('time_duration -->',time_duration);
 		let checker = toCheck(time_duration);
+		console.log('checking for time -----> ',checker)
 		if (checker){
           var isIn = null;
 		  for (let y = 0; y < old_copy.length; y++){
@@ -36,6 +39,7 @@ function filter(old, newData) {
 		  } 
 		  if (isIn == null){
 				update.push(x)
+				console.log(update)
 		  }
 		}
 	}
