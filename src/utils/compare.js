@@ -10,9 +10,10 @@ function compare(old, newData) {
 				console.log(`${x.volume} === ${newData_copy[y].volume}`, x.volume === newData_copy[y].volume);
 				console.log(`${x.symbol} === ${newData_copy[y].symbol}`, x.symbol === newData_copy[y].symbol);
 				console.log(`${x.type} === ${newData_copy[y].type}`,  x.type === newData_copy[y].type);
-				if (x.open_time === newData_copy[y].open_time && x.volume === newData_copy[y].volume && x.symbol === newData_copy[y].symbol && x.type === newData_copy[y].type){
+				if (x.open_time.trim() === newData_copy[y].open_time.trim() && x.volume === newData_copy[y].volume && x.symbol === newData_copy[y].symbol && x.type === newData_copy[y].type){
 					isIn = 1;
-					delete newData_copy[y];
+					newData_copy.splice(y, 1);
+					//delete newData_copy[y];
 					break;
 				}
 			}
