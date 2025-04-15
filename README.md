@@ -94,5 +94,3 @@ Creating a comprehensive README for a Node.js project that includes basic instal
    ```
    ./install.sh OR install.bat OR install
    ```
-
-## Usage
